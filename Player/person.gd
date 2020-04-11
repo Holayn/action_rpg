@@ -18,11 +18,16 @@ var direction_map = {
 }
 
 func movement_process(delta):
+	var animState = $animTree.get("parameters/playback")
 	if move_dir != Vector2(0,0):
+		$animTree.set("parameters/idle/blend_position", move_dir)
+		$animTree.set("parameters/run/blend_position", move_dir)
+		animState.travel("run")
 		velocity = velocity.move_toward(move_dir * SPEED, ACCEL * delta)
-		animation_player("run")
+#		animation_player("run")
 	else:
-		animation_player("idle")
+#		animation_player("idle")
+		animState.travel("idle")
 		velocity = velocity.move_toward(Vector2(0,0), FRICTION * delta)
 	
 	velocity = move_and_slide(velocity)
