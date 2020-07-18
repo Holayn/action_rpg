@@ -4,6 +4,13 @@ const ACCEL = 600
 const SPEED = 100
 const FRICTION = 500
 
+enum {
+	MOVE,
+	ROLL,
+	ATTACK
+}
+
+var state = MOVE
 var velocity = Vector2(0,0)
 var speed = 4
 
@@ -17,11 +24,16 @@ var direction_map = {
 	Vector2(0,-1): "up",
 }
 
-func movement_process(delta):
+func _ready():
+	$animTree.active = true
+
+func movement_state(delta):
 	var animState = $animTree.get("parameters/playback")
 	if move_dir != Vector2(0,0):
 		$animTree.set("parameters/idle/blend_position", move_dir)
 		$animTree.set("parameters/run/blend_position", move_dir)
+		$animTree.set("parameters/attack/blend_position", move_dir)
+		
 		animState.travel("run")
 		velocity = velocity.move_toward(move_dir * SPEED, ACCEL * delta)
 #		animation_player("run")
@@ -31,7 +43,10 @@ func movement_process(delta):
 		velocity = velocity.move_toward(Vector2(0,0), FRICTION * delta)
 	
 	velocity = move_and_slide(velocity)
-	
+
+func attack_animation_finished():
+	state = MOVE
+
 func sprite_dir_process():
 	var direction = direction_map.get(move_dir)
 	if direction != null:
