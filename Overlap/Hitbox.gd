@@ -1,4 +1,4 @@
-extends Area2D
+extends "res://Overlap/TheHitbox.gd"
 
 var direction_vector = Vector2.ZERO
 

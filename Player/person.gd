@@ -4,12 +4,7 @@ const ACCEL = 600
 const SPEED = 100
 const FRICTION = 500
 
-enum {
-	MOVE,
-	ATTACK
-}
-
-var state = MOVE
+var state = Enums.MOVE
 var velocity = Vector2.ZERO
 var speed = 4
 var move_dir = Vector2.ZERO
@@ -50,7 +45,7 @@ func movement_state(delta):
 	velocity = move_and_slide(velocity)
 
 func attack_animation_finished():
-	state = MOVE
+	state = Enums.MOVE
 
 #func sprite_dir_process():
 #	var direction = direction_map.get(move_dir)

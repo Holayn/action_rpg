@@ -1,20 +1,16 @@
 extends "res://Player/person.gd"
 
-enum {
-	ROLL
-}
-
 var roll_dir = move_dir
 
 func _process(delta):
 	controls_process()
 #	sprite_dir_process()
 	match state:
-		MOVE:
+		Enums.MOVE:
 			movement_state(delta)
-		ROLL:
+		Enums.ROLL:
 			roll_state(delta)
-		ATTACK:
+		Enums.ATTACK:
 			attack_state(delta)
 			
 func movement_state(delta):
@@ -33,10 +29,10 @@ func controls_process():
 		direction = move_dir
 	
 	if Input.is_action_just_pressed("attack"):
-		state = ATTACK
+		state = Enums.ATTACK
 		
 	if Input.is_action_just_pressed("roll"):
-		state = ROLL
+		state = Enums.ROLL
 		
 func set_move_anim_tree():
 	$animTree.set("parameters/idle/blend_position", move_dir)
@@ -56,4 +52,4 @@ func roll_state(delta):
 	$animTree.get("parameters/playback").travel("roll")
 	
 func roll_finished():
-	state = MOVE
+	state = Enums.MOVE
