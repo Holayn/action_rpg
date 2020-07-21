@@ -17,6 +17,7 @@ centered = false
 [node name="hurtbox" parent="." instance=ExtResource( 2 )]
 collision_layer = 8
 collision_mask = 2
+show_hit = false
 
 [node name="CollisionShape2D" parent="hurtbox" index="0"]
 position = Vector2( 16, 16 )
