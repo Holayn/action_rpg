@@ -1,6 +1,10 @@
 extends "res://Player/person.gd"
 
 var roll_dir = move_dir
+var roll_speed = speed * 1.5
+
+func _ready():
+	state = Enums.MOVE
 
 func _process(delta):
 	controls_process()
@@ -47,9 +51,20 @@ func attack_state(delta):
 	velocity = Vector2.ZERO
 	$animTree.get("parameters/playback").travel("attack")
 	
+func attack_animation_finished():
+	state = Enums.MOVE
+	
 func roll_state(delta):
-	velocity = move_and_slide(velocity)
+	velocity = move_and_slide(velocity.normalized() * (roll_speed))
 	$animTree.get("parameters/playback").travel("roll")
 	
 func roll_finished():
 	state = Enums.MOVE
+
+func _on_hurtbox_registered_hit(area):
+	if !$hurtbox.invincible:
+		$stats.curr_health = $stats.curr_health - area.damage
+		$hurtbox.invincible = true
+	
+func _on_stats_no_curr_health():
+	queue_free()

@@ -1,10 +1,11 @@
-[gd_scene load_steps=56 format=2]
+[gd_scene load_steps=58 format=2]
 
 [ext_resource path="res://Player/Player.png" type="Texture" id=1]
 [ext_resource path="res://Player/player.gd" type="Script" id=2]
 [ext_resource path="res://Overlap/Hitbox.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Player/swingPosition.gd" type="Script" id=4]
+[ext_resource path="res://stats.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Overlap/Hitbox.gd" type="Script" id=5]
+[ext_resource path="res://Overlap/Hurtbox.tscn" type="PackedScene" id=6]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 4.69221
@@ -726,6 +727,10 @@ graph_offset = Vector2( -256, -40.928 )
 [sub_resource type="CapsuleShape2D" id=50]
 radius = 5.55114
 
+[sub_resource type="CapsuleShape2D" id=51]
+radius = 5.20812
+height = 7.02242
+
 [node name="player" type="KinematicBody2D"]
 collision_layer = 2
 script = ExtResource( 2 )
@@ -772,7 +777,6 @@ parameters/run/blend_position = Vector2( 0, 0 )
 [node name="swingPosition" type="Position2D" parent="."]
 position = Vector2( -0.148651, -4.60818 )
 rotation = 4.71239
-script = ExtResource( 4 )
 
 [node name="hitbox" parent="swingPosition" instance=ExtResource( 3 )]
 position = Vector2( 20.0679, -0.148651 )
@@ -784,4 +788,23 @@ script = ExtResource( 5 )
 shape = SubResource( 50 )
 disabled = true
 
+[node name="hurtbox" parent="." instance=ExtResource( 6 )]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" parent="hurtbox" index="0"]
+position = Vector2( 0.148651, -5.94604 )
+shape = SubResource( 51 )
+
+[node name="Timer" parent="hurtbox" index="1"]
+wait_time = 2.0
+one_shot = true
+
+[node name="stats" parent="." instance=ExtResource( 4 )]
+max_health = 5
+[connection signal="registered_hit" from="hurtbox" to="." method="_on_hurtbox_registered_hit"]
+[connection signal="no_curr_health" from="stats" to="." method="_on_stats_no_curr_health"]
+
 [editable path="swingPosition/hitbox"]
+
+[editable path="hurtbox"]
