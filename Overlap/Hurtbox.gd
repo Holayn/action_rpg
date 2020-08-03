@@ -22,7 +22,6 @@ func set_invincibility(value):
 		emit_signal("invincibility_started")
 	else:
 		emit_signal("invincibility_ended")
-		
 
 func _on_hurtbox_area_entered(area):
 	show_hit_effect()
@@ -32,7 +31,6 @@ func _on_hurtbox_area_entered(area):
 	$Timer.start()
 	
 	set_deferred("monitoring", false)
-
 
 func _on_Timer_timeout():
 	self.invincible = false

@@ -12,7 +12,7 @@ var direction = Vector2.ZERO
 func _ready():
 	if has_node("animTree"):
 		$animTree.active = true
-	
+		
 func set_move_anim_tree():
 	pass
 	

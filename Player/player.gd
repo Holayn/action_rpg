@@ -1,7 +1,11 @@
 extends "res://Player/person.gd"
 
+const playerHurtSound = preload("res://Music and Sounds/playerHurtSound.tscn")
+
 var roll_dir = move_dir
 var roll_speed = speed * 1.5
+
+signal stats
 
 func _ready():
 	state = Enums.MOVE
@@ -65,6 +69,16 @@ func _on_hurtbox_registered_hit(area):
 	if !$hurtbox.invincible:
 		$stats.curr_health = $stats.curr_health - area.damage
 		$hurtbox.invincible = true
-	
+		add_child(playerHurtSound.instance())
+
 func _on_stats_no_curr_health():
 	queue_free()
+
+func _on_stats_stats():
+	emit_signal("stats", $stats)
+
+func _on_hurtbox_invincibility_started():
+	$blinkPlayer.play("On")
+
+func _on_hurtbox_invincibility_ended():
+	$blinkPlayer.play("Off")

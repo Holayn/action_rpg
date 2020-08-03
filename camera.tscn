@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://camera.gd" type="Script" id=1]
+
+[node name="camera" type="Camera2D"]
+current = true
+smoothing_enabled = true
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="limits" type="Node" parent="."]
+
+[node name="topleft" type="Position2D" parent="limits"]
+
+[node name="bottomright" type="Position2D" parent="limits"]
